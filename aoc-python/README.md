@@ -1,0 +1,1 @@
+support package from https://github.com/anthonywritescode/aoc2022

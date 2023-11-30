@@ -1,0 +1,5 @@
+-e support
+pytest
+numpy
+ipykernel
+flake8
