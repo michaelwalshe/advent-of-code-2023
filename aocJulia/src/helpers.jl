@@ -1,7 +1,7 @@
 module helpers
 using HTTP
 
-const YEAR = 2022
+const YEAR = 2023
 const ROOT = joinpath(splitpath(Base.source_path())[1:(end - 2)]...)
 
 function _get_cookie_headers()

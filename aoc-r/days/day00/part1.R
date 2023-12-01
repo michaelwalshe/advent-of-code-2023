@@ -3,6 +3,8 @@ library(here)
 
 source(here("R", "utils.R"))
 
+library(stringr)
+library(purrr)
 
 compute <- function(s = "") {
   ""

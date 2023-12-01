@@ -1,6 +1,6 @@
 here::i_am("R/utils.R")
 
-YEAR <- 2022
+YEAR <- 2023
 
 create_day <- function(day, root = here::here()) {
   day_name <- paste0("day", sprintf("%02d", day))
