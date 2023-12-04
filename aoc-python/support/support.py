@@ -16,7 +16,7 @@ from typing import Generator, Iterable, NamedTuple
 HERE = Path(os.path.dirname(os.path.abspath(__file__)))
 ROOT = HERE.parent
 
-YEAR = 2023
+YEAR = 2022
 
 @contextlib.contextmanager
 def timing(name: str = '') -> Generator[None, None, None]:
@@ -82,7 +82,7 @@ def create_day(day):
 
     if Path(ROOT / day_name).exists():
         raise ValueError(f"Directory for day {day_name} already exists")
-
+    
     copy_tree(str(ROOT / "day00"), str(ROOT / day_name))
 
     download_input(day, ROOT / day_name)
