@@ -1,4 +1,4 @@
--e support
+-e ./src
 pytest
 numpy
 ipykernel

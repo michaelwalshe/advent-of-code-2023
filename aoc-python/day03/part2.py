@@ -20,7 +20,9 @@ def peek(arr: list[list[str]], i: int, j: int) -> str:
 
 def compute(s: str) -> int:
     lines = s.splitlines()
+    # Pre computed grid, will be edited as we go to consume numbers
     grid = [list(line) for line in lines]
+    # Total gear ratio
     tot = 0
     for j, line in enumerate(lines):
         for i, c in enumerate(line):
