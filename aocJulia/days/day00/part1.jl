@@ -1,3 +1,5 @@
+using Chain
+using Pipe
 using Test
 
 using aocJulia: helpers
@@ -8,12 +10,13 @@ function compute(s)
 end
 
 
-INPUTS_S = """
+INPUT_S = """
 
 """
-EXPECTED = ""
+EXPECTED = 0
 
-@test compute(INPUTS_S) == EXPECTED
+@test compute(INPUT_S) == EXPECTED
 
 INPUT_TXT = helpers.read_input(dirname(Base.source_path()))
-println(compute(INPUT_TXT))
+
+@time println(compute(INPUT_TXT))
