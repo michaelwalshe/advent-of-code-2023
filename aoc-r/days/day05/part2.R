@@ -31,6 +31,7 @@ compute <- function(s = "") {
     destination_min <- map[,1]
     destination_max <- destination_min + range_length - 1
 
+    # Cant preallocate, as seeds could split into arbitrary many ranges?
     new_seeds <- double()
 
     for (i in seq(1, length(seed_ranges), by=2)) {
