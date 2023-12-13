@@ -16,7 +16,7 @@ from typing import Generator, Iterable, NamedTuple
 HERE = Path(os.path.dirname(os.path.abspath(__file__)))
 ROOT = HERE.parent
 
-YEAR = 2022
+YEAR = 2023
 
 @contextlib.contextmanager
 def timing(name: str = '') -> Generator[None, None, None]:
