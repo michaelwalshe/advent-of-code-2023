@@ -151,7 +151,7 @@ def format_coords_hash(coords: set[tuple[int, int]]) -> str:
     max_y = max(y for _, y in coords)
     return '\n'.join(
         ''.join(
-            '#' if (x, y) in coords else ' '
+            '#' if (x, y) in coords else '.'
             for x in range(min_x, max_x + 1)
         )
         for y in range(min_y, max_y + 1)
