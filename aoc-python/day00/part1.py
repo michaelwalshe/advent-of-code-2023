@@ -1,13 +1,8 @@
-from __future__ import annotations
-
-import argparse
-import os.path
+from pathlib import Path
 
 import pytest
 
 import support
-
-INPUT_TXT = os.path.join(os.path.dirname(__file__), 'input.txt')
 
 
 def compute(s: str) -> int:
@@ -37,12 +32,11 @@ def test(input_s: str, expected: int) -> None:
     assert compute(input_s) == expected
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('data_file', nargs='?', default=INPUT_TXT)
-    args = parser.parse_args()
+INPUT_TXT = Path(__file__).parent / 'input.txt'
 
-    with open(args.data_file) as f, support.timing():
+
+def main() -> int:
+    with open(INPUT_TXT) as f, support.timing():
         print(compute(f.read()))
 
     return 0
