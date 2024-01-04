@@ -1,7 +1,7 @@
 Advent of Code 2023
 ===================
 
-https://adventofcode.com/2022
+https://adventofcode.com/2023
 
 Advent of code in Python, R, Julia, SAS, and whatever else takes my fancy
 
