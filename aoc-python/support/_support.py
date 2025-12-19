@@ -3,89 +3,83 @@ from __future__ import annotations
 import argparse
 import contextlib
 import enum
-import os.path
 import sys
 import time
 import urllib.error
-import urllib.parse
 import urllib.request
-from distutils.dir_util import copy_tree
+from shutil import copytree
 from pathlib import Path
 from typing import Generator, Iterable, NamedTuple
 
-HERE = Path(os.path.dirname(os.path.abspath(__file__)))
-ROOT = HERE.parent
-
-YEAR = 2023
 
 @contextlib.contextmanager
-def timing(name: str = '') -> Generator[None, None, None]:
+def timing(name: str = "") -> Generator[None, None, None]:
     before = time.time()
     try:
         yield
     finally:
         after = time.time()
         t = (after - before) * 1000
-        unit = 'ms'
+        unit = "ms"
         if t < 100:
             t *= 1000
-            unit = 'μs'
+            unit = "μs"
         if name:
-            name = f' ({name})'
-        print(f'> {int(t)} {unit}{name}', file=sys.stderr, flush=True)
+            name = f" ({name})"
+        print(f"> {int(t)} {unit}{name}", file=sys.stderr, flush=True)
 
 
-def _get_cookie_headers() -> dict[str, str]:
-    with open(os.path.join(HERE, '../.env')) as f:
+def _get_cookie_headers(root: Path) -> dict[str, str]:
+    with (root / ".env").open() as f:
         contents = f.read().strip()
-    return {'Cookie': contents}
+    return {"Cookie": contents}
 
 
-def get_input(year: int, day: int) -> str:
-    url = f'https://adventofcode.com/{year}/day/{day}/input'
-    req = urllib.request.Request(url, headers=_get_cookie_headers())
+def get_input(year: int, day: int, root: Path) -> str:
+    url = f"https://adventofcode.com/{year}/day/{day}/input"
+    req = urllib.request.Request(url, headers=_get_cookie_headers(root))
     return urllib.request.urlopen(req).read().decode()
 
 
-def download_input(day, daypath) -> int:
+def download_input(day: int, year: int, daypath: Path) -> int:
     parser = argparse.ArgumentParser()
     parser.parse_args()
 
     for i in range(5):
         try:
-            s = get_input(YEAR, day)
+            s = get_input(year, day, daypath.parent)
         except urllib.error.URLError as e:
-            print(f'zzz: not ready yet: {e}')
+            print(f"zzz: not ready yet: {e}")
             time.sleep(1)
         else:
             break
     else:
-        raise SystemExit('timed out after attempting many times')
+        raise SystemExit("timed out after attempting many times")
 
-    with open(daypath / 'input.txt', 'w') as f:
+    with open(daypath / "input.txt", "w") as f:
         f.write(s)
 
     lines = s.splitlines()
     if len(lines) > 10:
         for line in lines[:10]:
             print(line)
-        print('...')
+        print("...")
     else:
         print(lines[0][:80])
-        print('...')
+        print("...")
 
     return 0
 
 
-def create_day(day):
+def create_day(day: int, year: int, root: Path):
     day_name = f"day{str(day).zfill(2)}"
 
-    if Path(ROOT / day_name).exists():
+    if (root / day_name).exists():
         raise ValueError(f"Directory for day {day_name} already exists")
-    
-    copy_tree(str(ROOT / "day00"), str(ROOT / day_name))
 
-    download_input(day, ROOT / day_name)
+    copytree(str(root / "day00"), str(root / day_name))
+
+    download_input(day, year, root / day_name)
 
 
 def adjacent_4(x: int, y: int) -> Generator[tuple[int, int], None, None]:
@@ -103,7 +97,6 @@ def adjacent_8(x: int, y: int) -> Generator[tuple[int, int], None, None]:
             yield x + x_d, y + y_d
 
 
-
 class Bound(NamedTuple):
     min: int
     max: int
@@ -113,10 +106,8 @@ class Bound(NamedTuple):
         return range(self.min, self.max + 1)
 
 
-
 def bounds(points: Iterable[tuple[int, ...]]) -> tuple[Bound, ...]:
     return tuple(Bound(min(dim), max(dim)) for dim in zip(*points))
-
 
 
 def parse_coords_int(s: str) -> dict[tuple[int, int], int]:
@@ -131,7 +122,7 @@ def parse_coords_hash(s: str) -> set[tuple[int, int]]:
     coords = set()
     for y, line in enumerate(s.splitlines()):
         for x, c in enumerate(line):
-            if c == '#':
+            if c == "#":
                 coords.add((x, y))
     return coords
 
@@ -141,7 +132,7 @@ def parse_numbers_split(s: str) -> list[int]:
 
 
 def parse_numbers_comma(s: str) -> list[int]:
-    return [int(x) for x in s.strip().split(',')]
+    return [int(x) for x in s.strip().split(",")]
 
 
 def format_coords_hash(coords: set[tuple[int, int]]) -> str:
@@ -149,11 +140,8 @@ def format_coords_hash(coords: set[tuple[int, int]]) -> str:
     max_x = max(x for x, _ in coords)
     min_y = min(y for _, y in coords)
     max_y = max(y for _, y in coords)
-    return '\n'.join(
-        ''.join(
-            '#' if (x, y) in coords else '.'
-            for x in range(min_x, max_x + 1)
-        )
+    return "\n".join(
+        "".join("#" if (x, y) in coords else "." for x in range(min_x, max_x + 1))
         for y in range(min_y, max_y + 1)
     )
 

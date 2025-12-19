@@ -45,7 +45,7 @@ def test_parse_numbers_comma() -> None:
 
 
 def test_format_coords_hash() -> None:
-    assert support.format_coords_hash({(1, 0), (0, 1)}) == ' #\n# '
+    assert support.format_coords_hash({(1, 0), (0, 1)}) == '.#\n#.'
 
 
 def test_direction4() -> None:

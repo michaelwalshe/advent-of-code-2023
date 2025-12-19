@@ -1,0 +1,17 @@
+[project]
+name = "aoc-python"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytest",
+    "numpy",
+    "ipykernel",
+    "support",
+    "shapely>=2.1.2",
+    "z3-solver>=4.15.4.0",
+]
+
+[tool.uv.sources]
+support = { path = "support", editable = true }
