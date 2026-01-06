@@ -1,0 +1,16 @@
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[project]
+name = "support"
+version = "0.0.0"
+
+[project.scripts]
+aoc-download-input = "support:download_input"
+aoc-submit = "support:submit_solution"
+aoc-25-pt2 = "support:submit_25_pt2"
+
+[tool.uv.build-backend]
+module-name = "support"
+module-root = ""
